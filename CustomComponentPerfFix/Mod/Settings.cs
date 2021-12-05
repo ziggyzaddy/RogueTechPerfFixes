@@ -25,6 +25,8 @@ namespace RogueTechPerfFixes
             public bool CustomActivatableEquipment = true;
 
             public bool CustomUnit = true;
+
+            public bool DataManager = false;
         }
     }
 }

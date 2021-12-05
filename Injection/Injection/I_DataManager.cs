@@ -5,11 +5,8 @@ using Mono.Cecil.Rocks;
 using RogueTechPerfFixes;
 using RogueTechPerfFixes.DataManager;
 using RogueTechPerfFixes.Injection;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Injection.Injection
 {
@@ -22,7 +19,7 @@ namespace Injection.Injection
 
         public void Inject(Dictionary<string, TypeDefinition> typeTable, ModuleDefinition module)
         {
-            if (!Mod.Settings.Patch.Vanilla)
+            if (!Mod.Settings.Patch.DataManager)
                 return;
 
             if (typeTable.TryGetValue(_targetType, out TypeDefinition type))
