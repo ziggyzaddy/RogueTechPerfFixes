@@ -1,85 +1,58 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A8A5FA39-36E4-47CC-8A97-C71818A52150}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HarmonyPatches</RootNamespace>
-    <AssemblyName>HarmonyPatches</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>preview</LangVersion>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Build\Release\RogueTechPerfFix\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InjectionOnly|AnyCPU'">
-    <OutputPath>bin\InjectionOnly\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AssemblySearchPaths>
+      $(AssemblySearchPaths);
+      $(ReferencePath);
+    </AssemblySearchPaths>
   </PropertyGroup>
   <ItemGroup>
+    <OutDirFiles Include="$(OutDir)**" />
+  </ItemGroup>
+  <Target Name="CopyOutDirFilesToModDir" AfterTargets="AfterBuild">
+    <Copy SourceFiles="@(OutDirFiles)" DestinationFolder="$(BattleTechGameDir)\Mods\RogueTechPerfFixes\" />
+  </Target>
+  <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>G:\SteamLibrary\steamapps\common\BATTLETECH\BattleTech_Data\Managed\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>G:\SteamLibrary\steamapps\common\BATTLETECH\BattleTech_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\References\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="CustomActivatableEquipment">
-      <HintPath>G:\SteamLibrary\steamapps\common\BATTLETECH\Mods\CustomActivatableEquipment\CustomActivatableEquipment.dll</HintPath>
+      <HintPath>$(BattleTechGameDir)\Mods\CustomActivatableEquipment\CustomActivatableEquipment.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="CustomAmmoCategories">
-      <HintPath>G:\SteamLibrary\steamapps\common\BATTLETECH\Mods\CustomAmmoCategories\CustomAmmoCategories.dll</HintPath>
+      <HintPath>$(BattleTechGameDir)\Mods\CustomAmmoCategories\CustomAmmoCategories.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="CustomComponents">
-      <HintPath>G:\SteamLibrary\steamapps\common\BATTLETECH\Mods\CustomComponents\CustomComponents.dll</HintPath>
+      <HintPath>$(BattleTechGameDir)\Mods\CustomComponents\CustomComponents.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="CustomUnits">
-      <HintPath>G:\SteamLibrary\steamapps\common\BATTLETECH\Mods\CustomUnits\CustomUnits.dll</HintPath>
+      <HintPath>$(BattleTechGameDir)\Mods\CustomUnits\CustomUnits.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DOTween">
-      <HintPath>..\References\DOTween.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DOTweenPro">
-      <HintPath>G:\SteamLibrary\steamapps\common\BATTLETECH\BattleTech_Data\Managed\DOTweenPro.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="LowVisibility, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>G:\SteamLibrary\steamapps\common\BATTLETECH\Mods\LowVisibility\LowVisibility.dll</HintPath>
+    <Reference Include="LowVisibility">
+      <HintPath>$(BattleTechGameDir)\Mods\LowVisibility\LowVisibility.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>G:\SteamLibrary\steamapps\common\BATTLETECH\BattleTech_Data\Managed\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -91,51 +64,16 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>G:\SteamLibrary\steamapps\common\BATTLETECH\BattleTech_Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>G:\SteamLibrary\steamapps\common\BATTLETECH\BattleTech_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>G:\SteamLibrary\steamapps\common\BATTLETECH\BattleTech_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HarmonyPatches\H_AbstractActor.cs" />
-    <Compile Include="HarmonyPatches\H_ActorMovementSequence.cs" />
-    <Compile Include="HarmonyPatches\H_AttackDirector.cs" />
-    <Compile Include="HarmonyPatches\H_AuraActorBody.cs" />
-    <None Include="HarmonyPatches\H_BresenhamLine.cs" />
-    <Compile Include="HarmonyPatches\H_BTLightController.cs" />
-    <None Include="HarmonyPatches\H_CombatAuraReticle_DesiredAuraReceptionState.cs" />
-    <Compile Include="HarmonyPatches\H_CombatGameState.cs" />
-    <Compile Include="HarmonyPatches\H_DOTweenAnimation.cs" />
-    <Compile Include="HarmonyPatches\H_EffectManager.cs" />
-    <None Include="HarmonyPatches\H_EffectManager_GetAllEffectsTargeting.cs" />
-    <Compile Include="HarmonyPatches\H_ElementManager_RefreshCommandBuffer.cs" />
-    <Compile Include="HarmonyPatches\H_ExportInfluenceMapToCSV.cs" />
-    <None Include="HarmonyPatches\H_FindBlockerBetween.cs" />
-    <None Include="HarmonyPatches\H_FindBlockerReciprocal.cs" />
-    <Compile Include="HarmonyPatches\H_MissileLauncherEffect__Update.cs" />
-    <None Include="HarmonyPatches\H_SortMoveCandidatesByInfMapNode_Tick.cs" />
-    <Compile Include="HarmonyPatches\H_TerraiWaterHelper.cs" />
-    <None Include="HarmonyPatches\H_TerraiWaterHelper_HasWater.cs" />
-    <Compile Include="HarmonyPatches\H_VisibilityCache.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <ProjectReference Include="..\Injection\Injection.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CustomComponentPerfFix\RogueTechPerfFixes.csproj">
-      <Project>{382c05d7-3bce-4e9d-b3d2-8aa85c66871e}</Project>
-      <Name>RogueTechPerfFixes</Name>
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
 </Project>
