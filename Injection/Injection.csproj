@@ -13,7 +13,7 @@
     </AssemblySearchPaths>
   </PropertyGroup>
   <ItemGroup>
-    <OutDirFiles Include="$(OutDir)**;$(SolutionDir)\References\DOTween.dll" />
+    <OutDirFiles Include="$(SolutionDir)\References\DOTween.dll;$(OutDir)**" />
   </ItemGroup>
   <Target Name="CopyOutDirFilesToModDir" AfterTargets="AfterBuild">
     <Copy SourceFiles="@(OutDirFiles)" DestinationFolder="$(BattleTechGameDir)\Mods\RogueTechPerfFixes\" />

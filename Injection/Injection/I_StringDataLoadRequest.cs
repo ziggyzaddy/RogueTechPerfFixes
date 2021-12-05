@@ -24,7 +24,7 @@ namespace Injection.Injection
 
         public void Inject(Dictionary<string, TypeDefinition> typeTable, ModuleDefinition module)
         {
-            if (!Mod.Settings.Patch.Vanilla)
+            if (!Mod.Settings.Patch.DataManager)
                 return;
 
             if (typeTable.TryGetValue(_baseType, out TypeDefinition type))
