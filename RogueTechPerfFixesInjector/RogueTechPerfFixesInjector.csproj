@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <ProjectGuid>{24B640F1-9AFC-44C6-8414-6F28F3097D5B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net472</TargetFramework>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <AssemblySearchPaths>
+      $(AssemblySearchPaths);
+      $(ReferencePath);
+    </AssemblySearchPaths>
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+  </PropertyGroup>
+  <Target Name="CopyOutDirFilesToModDir" AfterTargets="AfterBuild" Condition="'$(BattleTechGameDir)' != ''">
+    <Copy SourceFiles="$(SolutionDir)\References\DOTween.dll" DestinationFolder="$(BattleTechGameDir)\Mods\ModTek\AssembliesOverride" />
+    <Copy SourceFiles="$(OutDir)\$(AssemblyName).dll" DestinationFolder="$(BattleTechGameDir)\Mods\ModTek\Injectors" />
+  </Target>
+  <ItemGroup>
+    <Reference Include="System">
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Mono.Cecil">
+      <Version>0.11.4</Version>
+    </PackageReference>
+  </ItemGroup>
+</Project>

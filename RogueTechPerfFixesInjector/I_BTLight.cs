@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;
-using Mono.Collections.Generic;
 
-namespace RogueTechPerfFixes.Injection
+namespace RogueTechPerfFixesInjector
 {
     /// <summary>
     /// Add a field to store the InstanceId from Unity engine. InstanceId is used in sorting BTLights in the
@@ -26,37 +21,24 @@ namespace RogueTechPerfFixes.Injection
 
         private static Instruction _getInstanceID;
 
-        #region Implementation of IInjector
-
-        public void Inject(Dictionary<string, TypeDefinition> typeTable, ModuleDefinition module)
+        public void Inject(IAssemblyResolver resolver)
         {
-            if (!Mod.Settings.Patch.Vanilla)
-                return;
+            var assembly = resolver.Resolve(new AssemblyNameReference("Assembly-CSharp", null));
+            var type = assembly.MainModule.GetType(_targetType) ?? throw new Exception($"Can't find target type: {_targetType}");
 
-            if (typeTable.TryGetValue(_targetType, out TypeDefinition type))
-            {
-                _getInstanceID = Instruction.Create(
-                    OpCodes.Callvirt
-                    , type.Module.ImportReference(typeof(UnityEngine.Object).GetMethod(nameof(UnityEngine.Object.GetInstanceID))));
+            var unityEngineAssembly = resolver.Resolve(new AssemblyNameReference("UnityEngine.CoreModule", null));
+            var objectType = unityEngineAssembly.MainModule.GetType("UnityEngine.Object");
+            var getInstanceIdMethod = objectType.Methods.Single(x => x.Name == "GetInstanceID");
+            var methodTypeReference = assembly.MainModule.ImportReference(getInstanceIdMethod);
+            _getInstanceID = Instruction.Create(OpCodes.Callvirt, methodTypeReference);
 
-                InjectField(type, module);
-                InjectIL(type);
-                //if (InitField(type))
-                //{
-                //    InjectIL(type);
-                //}
-            }
-            else
-            {
-                CecilManager.WriteError($"Can't find target type: {_targetType}\n");
-            }
+            InjectField(type, assembly);
+            InjectIL(type);
         }
 
-        #endregion
-
-        private static void InjectField(TypeDefinition type, ModuleDefinition module)
+        private static void InjectField(TypeDefinition type, AssemblyDefinition assembly)
         {
-            TypeReference intReference = module.ImportReference(typeof(int));
+            var intReference = assembly.MainModule.ImportReference(typeof(int));
 
             InstanceId = new FieldDefinition(
                 nameof(InstanceId)
@@ -66,8 +48,8 @@ namespace RogueTechPerfFixes.Injection
             type.Fields.Add(InstanceId);
 
             GetInstanceIdLazy = new MethodDefinition("GetInstanctIdLazy", MethodAttributes.Public, intReference);
-            ILProcessor ilProcessor = GetInstanceIdLazy.Body.GetILProcessor();
-            Instruction branchTarget = ilProcessor.Create(OpCodes.Nop);
+            var ilProcessor = GetInstanceIdLazy.Body.GetILProcessor();
+            var branchTarget = ilProcessor.Create(OpCodes.Nop);
             ilProcessor.Emit(OpCodes.Ldarg_0);
             ilProcessor.Emit(OpCodes.Ldfld, InstanceId);
             ilProcessor.Emit(OpCodes.Ldc_I4_0);
@@ -87,17 +69,16 @@ namespace RogueTechPerfFixes.Injection
 
         private static bool InitField(TypeDefinition type)
         {
-            List<MethodDefinition> consturctors = type.GetConstructors().ToList();
-            if (consturctors.Count == 0)
+            var constructors = type.GetConstructors().ToList();
+            if (constructors.Count == 0)
             {
-                RTPFLogger.LogCritical($"Can't find constructor for BTLight\n");
-                return false;
+                throw new Exception("Can't find constructor for BTLight");
             }
 
-            foreach (MethodDefinition consturctor in consturctors)
+            foreach (var constructor in constructors)
             {
-                ILProcessor ilProcessor = consturctor.Body.GetILProcessor();
-                Instruction ctorEnd = consturctor.Body.Instructions.Last();
+                var ilProcessor = constructor.Body.GetILProcessor();
+                var ctorEnd = constructor.Body.Instructions.Last();
 
                 ilProcessor.InsertBefore(
                     ctorEnd
@@ -119,23 +100,22 @@ namespace RogueTechPerfFixes.Injection
 
         private static void InjectIL(TypeDefinition type)
         {
-            MethodDefinition method = type.GetMethods().FirstOrDefault(m => m.Name == "CompareTo");
+            var method = type.GetMethods().FirstOrDefault(m => m.Name == "CompareTo");
             if (method == null)
             {
-                File.AppendAllText(CecilManager.CecilLog, $"Can't find target method: BTLight.CompareTo\n");
-                return;
+                throw new Exception("Can't find target method: BTLight.CompareTo");
             }
 
-            Instruction GetId = Instruction.Create(OpCodes.Call, GetInstanceIdLazy);
+            var GetId = Instruction.Create(OpCodes.Call, GetInstanceIdLazy);
 
-            List<int> loadFieldPosition = new List<int>(2);
-            for (int i = 0; i < method.Body.Instructions.Count; i++)
+            var loadFieldPosition = new List<int>(2);
+            for (var i = 0; i < method.Body.Instructions.Count; i++)
             {
-                Instruction instruction = method.Body.Instructions[i];
+                var instruction = method.Body.Instructions[i];
 
                 if (instruction.Operand is MethodReference reference1
-                        && _getInstanceID.Operand is MethodReference reference2
-                        && reference1.FullName == reference2.FullName)
+                    && _getInstanceID.Operand is MethodReference reference2
+                    && reference1.FullName == reference2.FullName)
                 {
                     loadFieldPosition.Add(i);
                 }
@@ -143,11 +123,10 @@ namespace RogueTechPerfFixes.Injection
 
             if (loadFieldPosition.Count != 2)
             {
-                File.AppendAllText(CecilManager.CecilLog, $"Can't patch BTLight.CompareTo\n");
-                return;
+                throw new Exception("Can't patch BTLight.CompareTo");
             }
 
-            foreach (int i in loadFieldPosition)
+            foreach (var i in loadFieldPosition)
                 method.Body.Instructions[i] = GetId;
         }
     }

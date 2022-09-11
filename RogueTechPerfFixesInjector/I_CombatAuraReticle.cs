@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BattleTech.UI;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;
-using Mono.Collections.Generic;
 
-namespace RogueTechPerfFixes.Injection
+namespace RogueTechPerfFixesInjector
 {
     public class I_CombatAuraReticle : IInjector
     {
@@ -22,35 +17,24 @@ namespace RogueTechPerfFixes.Injection
 
         private const int _intervalValue = 10;
 
-        #region Implementation of IInjector
-
-        public void Inject(Dictionary<string, TypeDefinition> typeTable, ModuleDefinition module)
+        public void Inject(IAssemblyResolver resolver)
         {
-            if (!Mod.Settings.Patch.Vanilla)
-                return;
+            var assembly = resolver.Resolve(new AssemblyNameReference("Assembly-CSharp", null));
+            var type = assembly.MainModule.GetType(_targetType) ?? throw new Exception($"Can't find target type: {_targetType}");
 
-            if (typeTable.TryGetValue(_targetType, out TypeDefinition type))
-            {
-                InjectField(type, module);
-                InitField(type);
-                InjectIL(type);
-            }
-            else
-            {
-                CecilManager.WriteError($"Can't find target type: {_targetType}");
-            }
+            InjectField(type, assembly);
+            InitField(type);
+            InjectIL(type);
         }
 
-        #endregion
-
-        private static void InjectField(TypeDefinition type, ModuleDefinition module)
+        private static void InjectField(TypeDefinition type, AssemblyDefinition assembly)
         {
-            TypeReference unsignedInt = module.ImportReference(typeof(uint));
+            var unsignedInt = assembly.MainModule.ImportReference(typeof(uint));
 
             _counter = new FieldDefinition(
-                    "_counter"
-                    , FieldAttributes.Private
-                    , unsignedInt);
+                "_counter"
+                , FieldAttributes.Private
+                , unsignedInt);
 
             _interval = new FieldDefinition(
                 "_updateInterval"
@@ -63,9 +47,9 @@ namespace RogueTechPerfFixes.Injection
 
         private static void InitField(TypeDefinition type)
         {
-            MethodDefinition staticCtor = type.GetStaticConstructor();
-            ILProcessor ilProcessor = staticCtor.Body.GetILProcessor();
-            Instruction ctorStart = staticCtor.Body.Instructions[0];
+            var staticCtor = type.GetStaticConstructor();
+            var ilProcessor = staticCtor.Body.GetILProcessor();
+            var ctorStart = staticCtor.Body.Instructions[0];
 
             ilProcessor.InsertBefore(ctorStart, Instruction.Create(OpCodes.Ldc_I4, _intervalValue));
             ilProcessor.InsertBefore(ctorStart, Instruction.Create(OpCodes.Stsfld, _interval));
@@ -75,22 +59,21 @@ namespace RogueTechPerfFixes.Injection
         {
             const string targetMethod = "LateUpdate";
 
-            MethodDefinition method =
+            var method =
                 type.GetMethods().FirstOrDefault(m => m.Name == targetMethod);
 
             if (method == null)
             {
-                RTPFLogger.LogCritical($"Can't find method: {targetMethod}\n");
-                return;
+                throw new Exception($"Can't find method: {targetMethod}\n");
             }
 
-            ILProcessor ilProcessor = method.Body.GetILProcessor();
-            Instruction methodStart = method.Body.Instructions[0];
+            var ilProcessor = method.Body.GetILProcessor();
+            var methodStart = method.Body.Instructions[0];
 
-            List<Instruction> newInstructions = CreateInstructions(ilProcessor, methodStart);
+            var newInstructions = CreateInstructions(ilProcessor, methodStart);
             newInstructions.Reverse();
 
-            foreach (Instruction instruction in newInstructions)
+            foreach (var instruction in newInstructions)
             {
                 ilProcessor.InsertBefore(method.Body.Instructions[0], instruction);
             }
@@ -98,7 +81,7 @@ namespace RogueTechPerfFixes.Injection
 
         private static List<Instruction> CreateInstructions(ILProcessor ilProcessor, Instruction branchTarget)
         {
-            List<Instruction> instructions = new List<Instruction>()
+            var instructions = new List<Instruction>
             {
                 // int remainder = _counter % _interval;
                 ilProcessor.Create(OpCodes.Ldarg_0),
