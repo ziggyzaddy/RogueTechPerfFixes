@@ -1,4 +1,4 @@
-﻿namespace RogueTechPerfFixes.Mod
+﻿namespace RogueTechPerfFixes
 {
     public class Settings
     {

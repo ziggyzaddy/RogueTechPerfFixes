@@ -4,7 +4,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using RogueTechPerfFixes.Utils;
 
-namespace RogueTechPerfFixes.Mod
+namespace RogueTechPerfFixes
 {
     public static class Mod
     {
@@ -22,8 +22,6 @@ namespace RogueTechPerfFixes.Mod
 
             set => _settings = value;
         }
-
-        public static Version Version { get; } = Assembly.GetExecutingAssembly().GetName().Version;
 
         public static void Init(string modDirectory, string settingsJSON)
         {

@@ -6,7 +6,7 @@ namespace RogueTechPerfFixes.Utils
     {
         public static void CheckExitCounter(string message, int counter)
         {
-            int exitCounter = VisibilityCacheGate.GetCounter;
+            var exitCounter = VisibilityCacheGate.GetCounter;
             if (exitCounter > counter)
             {
                 RTPFLogger.Error?.Write(message);

@@ -19,11 +19,11 @@ namespace RogueTechPerfFixes.Utils
 
         private static readonly RTPFLogger _rtpfLogger = new RTPFLogger();
 
-        public static LogWriter Debug => Mod.Mod.Settings.LogDebug ? new LogWriter(Mode.Debug) : null;
+        public static LogWriter Debug => Mod.Settings.LogDebug ? new LogWriter(Mode.Debug) : null;
 
-        public static LogWriter Error => Mod.Mod.Settings.LogError ? new LogWriter(Mode.Error) : null;
+        public static LogWriter Error => Mod.Settings.LogError ? new LogWriter(Mode.Error) : null;
 
-        public static LogWriter Warning => Mod.Mod.Settings.LogWarning ? new LogWriter(Mode.Warning) : null;
+        public static LogWriter Warning => Mod.Settings.LogWarning ? new LogWriter(Mode.Warning) : null;
 
         public static void InitCriticalLogger(string modDirectory)
         {
@@ -72,7 +72,7 @@ namespace RogueTechPerfFixes.Utils
 
             public void Write(string message)
             {
-                bool refLock = false;
+                var refLock = false;
                 try
                 {
                     _writeLock.Enter(ref refLock);

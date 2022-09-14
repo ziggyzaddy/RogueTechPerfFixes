@@ -3,7 +3,7 @@ using BattleTech.Rendering;
 using Harmony;
 using RogueTechPerfFixes.Utils;
 
-namespace RogueTechPerfFixes.HarmonyPatches
+namespace RogueTechPerfFixes.Patches
 {
     /// <summary>
     /// Allowed all newly added light sorted in a batch instead of sorting every time a new light is added.
@@ -21,7 +21,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
             /// <returns> Returns true, if the field is found in the class. </returns>
             public static bool Prepare()
             {
-                return Mod.Mod.Settings.Patch.Vanilla
+                return Mod.Settings.Patch.Vanilla
                        && typeof(BTLightController).GetField(nameof(BTLightController.InBatchProcess), AccessTools.all) != null
                        && typeof(BTLightController).GetField(nameof(BTLightController.InBatchProcess), AccessTools.all) != null;
             }

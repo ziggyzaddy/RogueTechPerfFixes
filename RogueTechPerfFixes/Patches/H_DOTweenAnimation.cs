@@ -4,7 +4,7 @@ using Harmony;
 using RogueTechPerfFixes.Utils;
 using UnityEngine;
 
-namespace RogueTechPerfFixes.HarmonyPatches
+namespace RogueTechPerfFixes.Patches
 {
     public static class H_DOTweenAnimation
     {
@@ -15,7 +15,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Mod.Settings.Patch.Vanilla;
+                return Mod.Settings.Patch.Vanilla;
             }
 
             public static bool Prefix(DOTweenAnimation __instance)
@@ -34,16 +34,16 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Mod.Settings.Patch.Vanilla;
+                return Mod.Settings.Patch.Vanilla;
             }
 
             public static void Postfix(DOTweenAnimation __instance)
             {
-                Tween tween = __instance.tween;
+                var tween = __instance.tween;
                 if (tween is null)
                     return;
 
-                GameObject gameObject = __instance.gameObject;
+                var gameObject = __instance.gameObject;
                 tween.TargetId = gameObject.GetInstanceID();
                 tween.HasTargetId = true;
                 RTPFLogger.Debug?.Write($"Target instance Id: {tween.TargetId}");

@@ -3,7 +3,7 @@ using Harmony;
 using RogueTechPerfFixes.Models;
 using RogueTechPerfFixes.Utils;
 
-namespace RogueTechPerfFixes.HarmonyPatches
+namespace RogueTechPerfFixes.Patches
 {
     public static class H_ActorMovementSequence
     {
@@ -16,7 +16,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Mod.Settings.Patch.LowVisibility;
+                return Mod.Settings.Patch.LowVisibility;
             }
 
             public static void Prefix()
@@ -36,7 +36,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Mod.Settings.Patch.LowVisibility;
+                return Mod.Settings.Patch.LowVisibility;
             }
 
             public static void Postfix()

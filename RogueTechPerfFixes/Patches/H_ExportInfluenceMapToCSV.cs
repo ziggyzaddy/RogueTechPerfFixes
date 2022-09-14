@@ -1,14 +1,14 @@
 ﻿using BattleTech;
 using Harmony;
 
-namespace RogueTechPerfFixes.HarmonyPatches
+namespace RogueTechPerfFixes.Patches
 {
     [HarmonyPatch(typeof(InfluenceMapEvaluator), nameof(InfluenceMapEvaluator.ExportInfluenceMapToCSV))]
     public static class H_ExportInfluenceMapToCSV
     {
         public static bool Prepare()
         {
-            return Mod.Mod.Settings.Patch.Vanilla;
+            return Mod.Settings.Patch.Vanilla;
         }
 
         /// <summary>

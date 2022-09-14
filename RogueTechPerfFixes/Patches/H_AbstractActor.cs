@@ -3,7 +3,7 @@ using Harmony;
 using RogueTechPerfFixes.Models;
 using RogueTechPerfFixes.Utils;
 
-namespace RogueTechPerfFixes.HarmonyPatches
+namespace RogueTechPerfFixes.Patches
 {
     [HarmonyPatch(typeof(AbstractActor))]
     [HarmonyPatch(nameof(AbstractActor.IsFuryInspired))]
@@ -12,7 +12,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
     {
         public static bool Prepare()
         {
-            return Mod.Mod.Settings.Patch.Vanilla;
+            return Mod.Settings.Patch.Vanilla;
         }
 
         public static bool Prefix(ref bool __result)
@@ -37,7 +37,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
 
         public static bool Prepare()
         {
-            return Mod.Mod.Settings.Patch.LowVisibility;
+            return Mod.Settings.Patch.LowVisibility;
         }
 
         [HarmonyPriority(900)]
@@ -54,7 +54,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
             VisibilityCacheGate.ExitGate();
             GateActive = false;
 
-            int exitCounter = VisibilityCacheGate.GetCounter;
+            var exitCounter = VisibilityCacheGate.GetCounter;
             if (exitCounter < counter)
             {
                 RTPFLogger.Debug?.Write($"Reset or unsymmetrical larger number of ExitGate() are call.");

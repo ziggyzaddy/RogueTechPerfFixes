@@ -9,7 +9,7 @@ using Harmony;
 using RogueTechPerfFixes.Utils;
 using UnityEngine;
 
-namespace RogueTechPerfFixes.HarmonyPatches
+namespace RogueTechPerfFixes.Patches
 {
     using Building = BattleTech.Building;
 
@@ -21,7 +21,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Mod.Settings.Patch.CustomUnit;
+                return Mod.Settings.Patch.CustomUnit;
             }
 
             public static bool Prefix(MapTerrainDataCell cell)
@@ -40,7 +40,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Mod.Settings.Patch.CustomUnit;
+                return Mod.Settings.Patch.CustomUnit;
             }
 
             public static bool Prefix(MapTerrainDataCellEx ecell)
@@ -52,14 +52,14 @@ namespace RogueTechPerfFixes.HarmonyPatches
 
         public static void UpdateWaterHeightRayNew(this MapTerrainDataCellEx ecell)
         {
-            Vector3 vector = ecell.WorldPos();
-            Ray ray = new Ray(new Vector3(vector.x, 1000f, vector.z), Vector3.down);
-            int layerMask = 1 << LayerMask.NameToLayer("Water");
-            RaycastHit[] array = Physics.RaycastAll(ray, 2000f, layerMask, QueryTriggerInteraction.Collide);
+            var vector = ecell.WorldPos();
+            var ray = new Ray(new Vector3(vector.x, 1000f, vector.z), Vector3.down);
+            var layerMask = 1 << LayerMask.NameToLayer("Water");
+            var array = Physics.RaycastAll(ray, 2000f, layerMask, QueryTriggerInteraction.Collide);
             RTPFLogger.Debug?.Write("UpdateWaterHeightRay:" + vector + "\n");
             RTPFLogger.Debug?.Write("hits count:" + array.Length + "\n");
-            float num = float.NaN;
-            foreach (RaycastHit raycastHit in array)
+            var num = float.NaN;
+            foreach (var raycastHit in array)
             {
                 if (float.IsNaN(num))
                     num = raycastHit.point.y;
@@ -120,12 +120,12 @@ namespace RogueTechPerfFixes.HarmonyPatches
     {
         public static bool Prepare()
         {
-            return Mod.Mod.Settings.Patch.CustomUnit;
+            return Mod.Settings.Patch.CustomUnit;
         }
 
         public static void Postfix(Building __instance)
         {
-            List<MapEncounterLayerDataCell> cells = ObstructionGameLogic.GetObstructionFromBuilding(
+            var cells = ObstructionGameLogic.GetObstructionFromBuilding(
                     __instance
                     , UnityGameInstance.BattleTechGame.Combat.ItemRegistry)
                 .occupiedCells;
@@ -145,7 +145,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
     {
         public static bool Prepare()
         {
-            return Mod.Mod.Settings.Patch.CustomUnit;
+            return Mod.Settings.Patch.CustomUnit;
         }
 
         public static void Postfix(DropshipGameLogic __instance)
@@ -153,7 +153,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
             if (!__instance.occupiedCells.Any())
                 return;
 
-            foreach (MapEncounterLayerDataCell cell in __instance.occupiedCells)
+            foreach (var cell in __instance.occupiedCells)
             {
                 if (cell.relatedTerrainCell is MapTerrainDataCellEx ex)
                 {
@@ -169,16 +169,16 @@ namespace RogueTechPerfFixes.HarmonyPatches
     {
         public static bool Prepare()
         {
-            return Mod.Mod.Settings.Patch.CustomUnit;
+            return Mod.Settings.Patch.CustomUnit;
         }
 
         public static void Postfix()
         {
-            MapTerrainDataCell[,] cells = UnityGameInstance.BattleTechGame.Combat.MapMetaData.mapTerrainDataCells;
-            int zIndex = cells.GetLength(0);
-            int xIndex = cells.GetLength(1);
+            var cells = UnityGameInstance.BattleTechGame.Combat.MapMetaData.mapTerrainDataCells;
+            var zIndex = cells.GetLength(0);
+            var xIndex = cells.GetLength(1);
 
-            Stopwatch stopwatch = new Stopwatch();
+            var stopwatch = new Stopwatch();
             stopwatch.Start();
             stopwatch.Stop();
 
@@ -186,7 +186,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
 
             Parallel.For(0, zIndex, (index) =>
             {
-                for (int i = 0; i < xIndex; i++)
+                for (var i = 0; i < xIndex; i++)
                 {
                     cells[index, i].UpdateWaterHeight();
                 }

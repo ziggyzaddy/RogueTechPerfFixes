@@ -3,7 +3,7 @@ using Harmony;
 using RogueTechPerfFixes.Models;
 using RogueTechPerfFixes.Utils;
 
-namespace RogueTechPerfFixes.HarmonyPatches
+namespace RogueTechPerfFixes.Patches
 {
     public static class H_CombatGameState
     {
@@ -14,12 +14,12 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Mod.Settings.Patch.LowVisibility;
+                return Mod.Settings.Patch.LowVisibility;
             }
 
             public static void Postfix()
             {
-                bool error = false;
+                var error = false;
 
                 if (AbstractActor_HandleDeath.GateActive)
                 {
@@ -49,7 +49,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Mod.Settings.Patch.LowVisibility;
+                return Mod.Settings.Patch.LowVisibility;
             }
 
             public static void Postfix()

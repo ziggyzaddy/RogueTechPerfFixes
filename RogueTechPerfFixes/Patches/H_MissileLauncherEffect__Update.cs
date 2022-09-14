@@ -1,14 +1,14 @@
 ﻿using BattleTech.Rendering;
 using Harmony;
 
-namespace RogueTechPerfFixes.HarmonyPatches
+namespace RogueTechPerfFixes.Patches
 {
     [HarmonyPatch(typeof(MissileLauncherEffect), "Update")]
     public static class H_MissileLauncherEffect__Update
     {
         public static bool Prepare()
         {
-            return Mod.Mod.Settings.Patch.Vanilla
+            return Mod.Settings.Patch.Vanilla
                    && typeof(BTLightController).GetField(nameof(BTLightController.InBatchProcess), AccessTools.all) != null
                    && typeof(BTLightController).GetField(nameof(BTLightController.InBatchProcess), AccessTools.all) != null;
         }

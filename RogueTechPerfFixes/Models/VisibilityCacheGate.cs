@@ -29,10 +29,10 @@ namespace RogueTechPerfFixes.Models
             shouldTakeaction = () => counter == 0;
             actionToTake = () =>
             {
-                CombatGameState combatGameState = UnityGameInstance.BattleTechGame.Combat;
-                List<ICombatant> combatants = combatGameState.GetAllLivingCombatants();
+                var combatGameState = UnityGameInstance.BattleTechGame.Combat;
+                var combatants = combatGameState.GetAllLivingCombatants();
 
-                foreach (AbstractActor actor in selfCacheActors.ToList())
+                foreach (var actor in selfCacheActors.ToList())
                 {
                     if (biCacheActors.Contains(actor))
                     {
@@ -40,12 +40,12 @@ namespace RogueTechPerfFixes.Models
                     }
                 }
 
-                foreach (AbstractActor actor in selfCacheActors)
+                foreach (var actor in selfCacheActors)
                 {
                     actor.RebuildVisibilityCache(combatants);
                 }
 
-                foreach (AbstractActor actor in biCacheActors)
+                foreach (var actor in biCacheActors)
                 {
                     actor.UpdateVisibilityCache(combatants);
                 }
@@ -101,7 +101,7 @@ namespace RogueTechPerfFixes.Models
 
         private static void RebuildSharedCache(List<SharedVisibilityCache> list, List<ICombatant> combatatns)
         {
-            for (int j = 0; j < list.Count; j++)
+            for (var j = 0; j < list.Count; j++)
             {
                 list[j].RebuildCache(combatatns);
                 if (list[j].ReportVisibilityToParent)

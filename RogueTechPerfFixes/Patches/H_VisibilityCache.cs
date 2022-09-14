@@ -3,7 +3,7 @@ using BattleTech;
 using Harmony;
 using RogueTechPerfFixes.Models;
 
-namespace RogueTechPerfFixes.HarmonyPatches
+namespace RogueTechPerfFixes.Patches
 {
     public static class VisibilityCachePatches
     {
@@ -17,7 +17,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Mod.Settings.Patch.LowVisibility;
+                return Mod.Settings.Patch.LowVisibility;
             }
 
             // Lowest priority
@@ -39,7 +39,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Mod.Settings.Patch.LowVisibility;
+                return Mod.Settings.Patch.LowVisibility;
             }
 
             // Lowest priority

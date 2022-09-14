@@ -4,7 +4,7 @@ using Harmony;
 using RogueTechPerfFixes.Models;
 using RogueTechPerfFixes.Utils;
 
-namespace RogueTechPerfFixes.HarmonyPatches
+namespace RogueTechPerfFixes.Patches
 {
     public static class H_EffectManager
     {
@@ -17,12 +17,12 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Mod.Settings.Patch.Vanilla;
+                return Mod.Settings.Patch.Vanilla;
             }
 
             public static void Postfix(Effect effect)
             {
-                if (!_cache.TryGetValue(effect.Target, out List<Effect> effects))
+                if (!_cache.TryGetValue(effect.Target, out var effects))
                 {
                     _cache[effect.Target] = effects = new List<Effect>();
                 }
@@ -36,12 +36,12 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Mod.Settings.Patch.Vanilla;
+                return Mod.Settings.Patch.Vanilla;
             }
 
             public static void Postfix(Effect e)
             {
-                if (_cache.TryGetValue(e.Target, out List<Effect> effects))
+                if (_cache.TryGetValue(e.Target, out var effects))
                 {
                     effects.Remove(e);
                 }
@@ -53,12 +53,12 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Mod.Settings.Patch.Vanilla;
+                return Mod.Settings.Patch.Vanilla;
             }
 
             public static void Postfix(Effect e)
             {
-                if (_cache.TryGetValue(e.Target, out List<Effect> effects))
+                if (_cache.TryGetValue(e.Target, out var effects))
                 {
                     effects.Remove(e);
                 }
@@ -70,12 +70,12 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Mod.Settings.Patch.Vanilla;
+                return Mod.Settings.Patch.Vanilla;
             }
 
             public static bool Prefix(object target, ref List<Effect> __result)
             {
-                if (_cache.TryGetValue(target, out List<Effect> effects))
+                if (_cache.TryGetValue(target, out var effects))
                 {
                     __result = new List<Effect>(effects);
                     return false;
@@ -90,7 +90,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Mod.Settings.Patch.Vanilla;
+                return Mod.Settings.Patch.Vanilla;
             }
 
             public static void Postfix()
@@ -104,7 +104,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Mod.Settings.Patch.Vanilla;
+                return Mod.Settings.Patch.Vanilla;
             }
 
             public static void Postfix()
@@ -118,13 +118,13 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Mod.Settings.Patch.Vanilla;
+                return Mod.Settings.Patch.Vanilla;
             }
 
             public static void Postfix(List<Effect> ___effects)
             {
                 _cache.Clear();
-                foreach (Effect effect in ___effects)
+                foreach (var effect in ___effects)
                 {
                     (_cache[effect.Target] = new List<Effect>()).Add(effect);
                 }
@@ -144,7 +144,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
 
             public static bool Prepare()
             {
-                return Mod.Mod.Settings.Patch.LowVisibility;
+                return Mod.Settings.Patch.LowVisibility;
             }
 
             public static void Prefix()

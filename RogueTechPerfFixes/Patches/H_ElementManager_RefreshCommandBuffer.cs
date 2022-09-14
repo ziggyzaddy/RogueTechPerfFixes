@@ -6,16 +6,16 @@ using BattleTech.Rendering.UI;
 using Harmony;
 using UnityEngine.Rendering;
 
-namespace RogueTechPerfFixes.HarmonyPatches
+namespace RogueTechPerfFixes.Patches
 {
     [HarmonyPatch(typeof(ElementManager), nameof(ElementManager.RefreshCommandBuffer))]
     public static class H_ElementManager_RefreshCommandBuffer
     {
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> codeInstructions, ILGenerator ilGenerator)
         {
-            FieldInfo uiCommandBuffer = typeof(ElementManager).GetField("_uiCommandBuffer", AccessTools.all);
-            Label notNullLabel = ilGenerator.DefineLabel();
-            List<CodeInstruction> code = new List<CodeInstruction>();
+            var uiCommandBuffer = typeof(ElementManager).GetField("_uiCommandBuffer", AccessTools.all);
+            var notNullLabel = ilGenerator.DefineLabel();
+            var code = new List<CodeInstruction>();
 
             code.Add(new CodeInstruction(OpCodes.Ldarg_0));
             code.Add(new CodeInstruction(OpCodes.Ldfld, uiCommandBuffer));
@@ -30,7 +30,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
             code.Add(new CodeInstruction(OpCodes.Ldstr, "UI Command Buffer"));
             code.Add(new CodeInstruction(OpCodes.Callvirt, typeof(CommandBuffer).GetMethod("set_name")));
 
-            CodeInstruction branch = new CodeInstruction(OpCodes.Ldarg_0);
+            var branch = new CodeInstruction(OpCodes.Ldarg_0);
             branch.labels.Add(notNullLabel);
             code.Add(branch);
             code.Add(new CodeInstruction(OpCodes.Ldfld, uiCommandBuffer));
