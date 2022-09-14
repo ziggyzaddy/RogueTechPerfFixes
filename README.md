@@ -8,8 +8,8 @@ The original author is Mhburg, with their repo available at https://github.com/M
 
 Copy Directory.Build.props.template to Directory.Build.props and adjust to your install.
 
-Build everything, HarmonyPatches should fail, but Mods/RogueTechPerfFixes/ should contain QuickStart.exe
+Build everything, RogueTechPerfFixes should fail but RogueTechPerfFixesInjector should have been built.
 
-Execute QuickStart.exe
+Execute the game to let the Injector run, verify in .modtek\ModTekPreloader.log that it indeed ran.
 
-Now build everything again and HarmonyPatches too should work.
+Build everything again, if it still fails, some third party dlls are not found where they should be (see HintPaths in RogueTechPerfFixes.cproj file).

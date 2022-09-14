@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProjectGuid>{382C05D7-3BCE-4E9D-B3D2-8AA85C66871E}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -7,15 +6,17 @@
     <LangVersion>preview</LangVersion>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <AssemblySearchPaths>
-      $(AssemblySearchPaths);
-      $(ReferencePath);
-    </AssemblySearchPaths>
+    <ReferencePath>$(BattleTechGameDir)\BattleTech_Data\Managed\</ReferencePath>
+    <AssemblySearchPaths>{HintPathFromItem};$(ReferencePath)</AssemblySearchPaths>
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
   </PropertyGroup>
   <ItemGroup>
-    <OutDirFiles Include="$(OutDir)**" />
+    <None Include="$(ProjectDir)\..\mod.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-  <Target Name="CopyOutDirFilesToModDir" AfterTargets="AfterBuild">
+  <Target Name="CopyFilesToGame" AfterTargets="CopyFilesToOutputDirectory">
+    <ItemGroup>
+      <OutDirFiles Include="$(OutDir)**" />
+    </ItemGroup>
     <Copy SourceFiles="@(OutDirFiles)" DestinationFolder="$(BattleTechGameDir)\Mods\RogueTechPerfFixes\" />
   </Target>
   <ItemGroup>
@@ -23,6 +24,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
+      <HintPath>$(BattleTechGameDir)\Mods\.modtek\AssembliesInjected\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="CustomActivatableEquipment">
@@ -33,35 +35,35 @@
       <HintPath>$(BattleTechGameDir)\Mods\CustomAmmoCategories\CustomAmmoCategories.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="CustomComponents">
-      <HintPath>$(BattleTechGameDir)\Mods\CustomComponents\CustomComponents.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="CustomUnits">
       <HintPath>$(BattleTechGameDir)\Mods\CustomUnits\CustomUnits.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DOTween">
+      <HintPath>..\References\DOTween.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DOTweenPro">
       <Private>False</Private>
     </Reference>
-    <Reference Include="LowVisibility">
-      <HintPath>$(BattleTechGameDir)\Mods\LowVisibility\LowVisibility.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <Private>False</Private>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine">
       <Private>False</Private>
     </Reference>

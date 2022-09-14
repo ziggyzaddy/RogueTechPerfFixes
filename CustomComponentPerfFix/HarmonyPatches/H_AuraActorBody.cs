@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CustomActivatableEquipment;
+﻿using CustomActivatableEquipment;
 using Harmony;
-using LowVisibility.Object;
+using RogueTechPerfFixes.Models;
+using RogueTechPerfFixes.Utils;
 
 namespace RogueTechPerfFixes.HarmonyPatches
 {
@@ -25,7 +21,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Settings.Patch.LowVisibility && Mod.Settings.Patch.CustomActivatableEquipment;
+                return Mod.Mod.Settings.Patch.LowVisibility && Mod.Mod.Settings.Patch.CustomActivatableEquipment;
             }
 
             public static void Prefix()
@@ -42,7 +38,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
                 VisibilityCacheGate.ExitGate();
                 GateActive = false;
 
-                Utils.CheckExitCounter($"Fewer calls made to ExitGate() when reaches {typeof(H_ReapplyAllEffects).FullName}:{nameof(Postfix)}.\n", _counter);
+                Utils.Utils.CheckExitCounter($"Fewer calls made to ExitGate() when reaches {typeof(H_ReapplyAllEffects).FullName}:{nameof(Postfix)}.\n", _counter);
                 RTPFLogger.Debug?.Write($"Exit visibility cache gate in {typeof(H_ReapplyAllEffects).FullName}:{nameof(Postfix)}\n");
             }
         }

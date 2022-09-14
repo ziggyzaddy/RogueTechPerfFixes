@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net.Configuration;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Harmony;
+using RogueTechPerfFixes.Utils;
 
-namespace RogueTechPerfFixes
+namespace RogueTechPerfFixes.Mod
 {
     public static class Mod
     {
-        private const string HARMONY_PATCH_NAME = "HarmonyPatches.dll";
-
         private static Settings _settings;
 
         public static Settings Settings
@@ -38,9 +31,7 @@ namespace RogueTechPerfFixes
             {
                 RTPFLogger.InitCriticalLogger(modDirectory);
                 Settings = JsonConvert.DeserializeObject<Settings>(settingsJSON);
-                HarmonyUtils.Harmony.PatchAll(
-                    Assembly.LoadFrom(Path.Combine(
-                        Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), HARMONY_PATCH_NAME)));
+                HarmonyUtils.Harmony.PatchAll();
             }
             catch (Exception e)
             {

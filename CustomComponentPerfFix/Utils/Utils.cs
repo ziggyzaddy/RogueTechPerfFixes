@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HBS.Logging;
+﻿using RogueTechPerfFixes.Models;
 
-namespace RogueTechPerfFixes
+namespace RogueTechPerfFixes.Utils
 {
     public static class Utils
     {

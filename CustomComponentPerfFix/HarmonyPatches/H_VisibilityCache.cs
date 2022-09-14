@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BattleTech;
 using Harmony;
-using LowVisibility.Object;
+using RogueTechPerfFixes.Models;
 
 namespace RogueTechPerfFixes.HarmonyPatches
 {
@@ -21,7 +17,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Settings.Patch.LowVisibility;
+                return Mod.Mod.Settings.Patch.LowVisibility;
             }
 
             // Lowest priority
@@ -43,7 +39,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Settings.Patch.LowVisibility;
+                return Mod.Mod.Settings.Patch.LowVisibility;
             }
 
             // Lowest priority

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BattleTech;
+﻿using BattleTech;
 using Harmony;
+using RogueTechPerfFixes.Models;
+using RogueTechPerfFixes.Utils;
 
 namespace RogueTechPerfFixes.HarmonyPatches
 {
@@ -21,7 +18,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Settings.Patch.LowVisibility;
+                return Mod.Mod.Settings.Patch.LowVisibility;
             }
 
             public static void Postfix()
@@ -37,14 +34,14 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Settings.Patch.LowVisibility;
+                return Mod.Mod.Settings.Patch.LowVisibility;
             }
 
             public static void Postfix()
             {
                 VisibilityCacheGate.ExitGate();
 
-                Utils.CheckExitCounter($"Fewer calls made to ExitGate() when reaches AttackDirector.OnAttackSequenceEnd().\n", _counter);
+                Utils.Utils.CheckExitCounter($"Fewer calls made to ExitGate() when reaches AttackDirector.OnAttackSequenceEnd().\n", _counter);
                 RTPFLogger.Debug?.Write($"Exit visibility cache gate in {typeof(H_OnAttackSequenceEnd).FullName}:{nameof(Postfix)}\n");
             }
         }

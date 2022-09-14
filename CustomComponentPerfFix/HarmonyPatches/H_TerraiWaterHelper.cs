@@ -1,16 +1,12 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using BattleTech;
 using CustAmmoCategories;
 using CustomUnits;
 using Harmony;
+using RogueTechPerfFixes.Utils;
 using UnityEngine;
 
 namespace RogueTechPerfFixes.HarmonyPatches
@@ -25,7 +21,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Settings.Patch.CustomUnit;
+                return Mod.Mod.Settings.Patch.CustomUnit;
             }
 
             public static bool Prefix(MapTerrainDataCell cell)
@@ -44,7 +40,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
         {
             public static bool Prepare()
             {
-                return Mod.Settings.Patch.CustomUnit;
+                return Mod.Mod.Settings.Patch.CustomUnit;
             }
 
             public static bool Prefix(MapTerrainDataCellEx ecell)
@@ -124,7 +120,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
     {
         public static bool Prepare()
         {
-            return Mod.Settings.Patch.CustomUnit;
+            return Mod.Mod.Settings.Patch.CustomUnit;
         }
 
         public static void Postfix(Building __instance)
@@ -149,7 +145,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
     {
         public static bool Prepare()
         {
-            return Mod.Settings.Patch.CustomUnit;
+            return Mod.Mod.Settings.Patch.CustomUnit;
         }
 
         public static void Postfix(DropshipGameLogic __instance)
@@ -173,7 +169,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
     {
         public static bool Prepare()
         {
-            return Mod.Settings.Patch.CustomUnit;
+            return Mod.Mod.Settings.Patch.CustomUnit;
         }
 
         public static void Postfix()

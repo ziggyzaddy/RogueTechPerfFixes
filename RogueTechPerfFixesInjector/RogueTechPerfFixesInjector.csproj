@@ -11,7 +11,7 @@
     </AssemblySearchPaths>
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
   </PropertyGroup>
-  <Target Name="CopyOutDirFilesToModDir" AfterTargets="AfterBuild" Condition="'$(BattleTechGameDir)' != ''">
+  <Target Name="CopyFilesToGame" AfterTargets="CopyFilesToOutputDirectory" Condition="'$(BattleTechGameDir)' != ''">
     <Copy SourceFiles="$(SolutionDir)\References\DOTween.dll" DestinationFolder="$(BattleTechGameDir)\Mods\ModTek\AssembliesOverride" />
     <Copy SourceFiles="$(OutDir)\$(AssemblyName).dll" DestinationFolder="$(BattleTechGameDir)\Mods\ModTek\Injectors" />
   </Target>

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BattleTech;
 using Harmony;
 
-namespace RogueTechPerfFixes
+namespace RogueTechPerfFixes.Models
 {
     /// <summary>
     /// Pool all requests to rebuild the visibility cache into one place.

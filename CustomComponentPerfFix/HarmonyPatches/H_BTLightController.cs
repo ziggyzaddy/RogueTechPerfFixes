@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using BattleTech.Rendering;
 using Harmony;
+using RogueTechPerfFixes.Utils;
 
 namespace RogueTechPerfFixes.HarmonyPatches
 {
@@ -25,7 +21,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
             /// <returns> Returns true, if the field is found in the class. </returns>
             public static bool Prepare()
             {
-                return Mod.Settings.Patch.Vanilla
+                return Mod.Mod.Settings.Patch.Vanilla
                        && typeof(BTLightController).GetField(nameof(BTLightController.InBatchProcess), AccessTools.all) != null
                        && typeof(BTLightController).GetField(nameof(BTLightController.InBatchProcess), AccessTools.all) != null;
             }

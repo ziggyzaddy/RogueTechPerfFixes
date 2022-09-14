@@ -1,10 +1,10 @@
 {
     "Name": "PerformanceFixes",
     "Enabled": true,
-    "Version": "0.0.3",
+    "Version": "0.0.4",
     "Description": "Performance fixes",
     "Author": "NotooShabby",
-    "DependsOn": [ "CustomComponents", "Custom Ammo Categories", "CustomActivatableEquipment", "CustomUnits" ],
+    "DependsOn": [ "Custom Ammo Categories", "CustomActivatableEquipment", "CustomUnits" ],
     "DLL": "RogueTechPerfFixes.dll",
     "DLLEntryPoint": "RogueTechPerfFixes.Mod.Init",
     "Settings": {

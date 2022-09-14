@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BattleTech;
+﻿using BattleTech;
 using Harmony;
+using RogueTechPerfFixes.Models;
+using RogueTechPerfFixes.Utils;
 
 namespace RogueTechPerfFixes.HarmonyPatches
 {
@@ -15,7 +12,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
     {
         public static bool Prepare()
         {
-            return Mod.Settings.Patch.Vanilla;
+            return Mod.Mod.Settings.Patch.Vanilla;
         }
 
         public static bool Prefix(ref bool __result)
@@ -40,7 +37,7 @@ namespace RogueTechPerfFixes.HarmonyPatches
 
         public static bool Prepare()
         {
-            return Mod.Settings.Patch.LowVisibility;
+            return Mod.Mod.Settings.Patch.LowVisibility;
         }
 
         [HarmonyPriority(900)]
