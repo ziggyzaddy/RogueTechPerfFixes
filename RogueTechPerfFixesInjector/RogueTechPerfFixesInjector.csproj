@@ -6,18 +6,18 @@
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <AssemblySearchPaths>
-      $(AssemblySearchPaths);
-      $(ReferencePath);
+      $(BattleTechGameDir)\Mods\ModTek\;
+      $(BattleTechGameDir)\BattleTech_Data\Managed\
     </AssemblySearchPaths>
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
   </PropertyGroup>
   <Target Name="CopyFilesToGame" AfterTargets="CopyFilesToOutputDirectory" Condition="'$(BattleTechGameDir)' != ''">
     <Copy SourceFiles="$(SolutionDir)\References\DOTween.dll" DestinationFolder="$(BattleTechGameDir)\Mods\ModTek\AssembliesOverride" />
-    <Copy SourceFiles="$(OutDir)\$(AssemblyName).dll" DestinationFolder="$(BattleTechGameDir)\Mods\ModTek\Injectors" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BattleTechGameDir)\Mods\ModTek\Injectors" />
   </Target>
   <Target Name="CopyFilesToDist" AfterTargets="CopyFilesToOutputDirectory">
     <Copy SourceFiles="$(SolutionDir)\References\DOTween.dll" DestinationFolder="$(SolutionDir)\dist\Mods\ModTek\AssembliesOverride" />
-    <Copy SourceFiles="$(OutDir)\$(AssemblyName).dll" DestinationFolder="$(SolutionDir)\dist\Mods\ModTek\Injectors" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(SolutionDir)\dist\Mods\ModTek\Injectors" />
   </Target>
   <ItemGroup>
     <Reference Include="System">
@@ -26,10 +26,11 @@
     <Reference Include="System.Core">
       <Private>false</Private>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Mono.Cecil">
-      <Version>0.11.4</Version>
-    </PackageReference>
+    <Reference Include="Mono.Cecil">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks">
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
 </Project>
