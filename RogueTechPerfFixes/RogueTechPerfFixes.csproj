@@ -1,4 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup Condition="'$(RogueTechPerfFixesModPath)' == ''">
+    <RogueTechPerfFixesModPath>$(SolutionDir)</RogueTechPerfFixesModPath>
+  </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{382C05D7-3BCE-4E9D-B3D2-8AA85C66871E}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -6,8 +9,11 @@
     <LangVersion>preview</LangVersion>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <ReferencePath>$(BattleTechGameDir)\BattleTech_Data\Managed\</ReferencePath>
-    <AssemblySearchPaths>{HintPathFromItem};$(ReferencePath)</AssemblySearchPaths>
+    <AssemblySearchPaths>
+      $(ReferencePath);
+      {HintPathFromItem};
+      $(BattleTechGameDir)\BattleTech_Data\Managed\
+    </AssemblySearchPaths>
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
   </PropertyGroup>
   <ItemGroup>
@@ -34,15 +40,15 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="CustomActivatableEquipment">
-      <HintPath>$(BattleTechGameDir)\Mods\CustomActivatableEquipment\CustomActivatableEquipment.dll</HintPath>
+      <HintPath>$(RogueTechPerfFixesModPath)\..\CustomActivatableEquipment\CustomActivatableEquipment.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="CustomAmmoCategories">
-      <HintPath>$(BattleTechGameDir)\Mods\CustomAmmoCategories\CustomAmmoCategories.dll</HintPath>
+      <HintPath>$(RogueTechPerfFixesModPath)\..\CustomAmmoCategories\CustomAmmoCategories.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="CustomUnits">
-      <HintPath>$(BattleTechGameDir)\Mods\CustomUnits\CustomUnits.dll</HintPath>
+      <HintPath>$(RogueTechPerfFixesModPath)\..\CustomUnits\CustomUnits.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DOTween">

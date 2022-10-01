@@ -3,9 +3,4 @@
     <PropertyGroup>
         <BattleTechGameDir>D:\Steam\steamapps\common\BATTLETECH</BattleTechGameDir>
     </PropertyGroup>
-
-    <PropertyGroup>
-        <ReferencePath>$(BattleTechGameDir)\BattleTech_Data\Managed\;$(ReferencePath)</ReferencePath>
-    </PropertyGroup>
-
 </Project>
