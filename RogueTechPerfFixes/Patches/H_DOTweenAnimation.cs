@@ -20,10 +20,16 @@ namespace RogueTechPerfFixes.Patches
 
             public static bool Prefix(DOTweenAnimation __instance)
             {
-                if (!__instance.tween?.HasTargetId ?? true)
+                var tween = __instance.tween;
+                if (tween == null)
+                {
+                    return true;
+                }
+
+                if (tween.gameObjectId == 0)
                     return true;
 
-                DOTween.Kill(__instance.tween.TargetId);
+                DOTween.Kill(tween.gameObjectId);
                 __instance.tween = null;
                 return false;
             }
@@ -44,9 +50,8 @@ namespace RogueTechPerfFixes.Patches
                     return;
 
                 var gameObject = __instance.gameObject;
-                tween.TargetId = gameObject.GetInstanceID();
-                tween.HasTargetId = true;
-                RTPFLogger.Debug?.Write($"Target instance Id: {tween.TargetId}");
+                tween.gameObjectId = gameObject.GetInstanceID();
+                RTPFLogger.Debug?.Write($"Target instance Id: {tween.gameObjectId}");
             }
         }
     }

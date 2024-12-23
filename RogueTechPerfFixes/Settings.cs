@@ -8,19 +8,13 @@
 
         public bool LogWarning = false;
 
-        public PatchOption Patch = new PatchOption();
+        public PatchOption Patch = new();
 
         public class PatchOption
         {
             public bool Vanilla = true;
 
             public bool LowVisibility = true;
-
-            public bool CustomActivatableEquipment = true;
-
-            public bool CustomUnit = true;
-
-            public bool DataManager = false;
         }
     }
 }

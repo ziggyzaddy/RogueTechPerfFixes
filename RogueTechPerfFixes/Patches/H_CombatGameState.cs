@@ -1,4 +1,4 @@
-﻿using BattleTech;
+using BattleTech;
 using Harmony;
 using RogueTechPerfFixes.Models;
 using RogueTechPerfFixes.Utils;
@@ -25,12 +25,6 @@ namespace RogueTechPerfFixes.Patches
                 {
                     error = true;
                     RTPFLogger.Error?.Write($"Something has gone wrong in handling actor death, resetting VisibilityCacheGate.");
-                }
-
-                if (H_AuraActorBody.GateActive)
-                {
-                    error = true;
-                    RTPFLogger.Error?.Write(string.Format(ACTIVE_GATE, nameof(H_AuraActorBody)));
                 }
 
                 if (H_EffectManager.H_OnRoundEnd.GateActive)

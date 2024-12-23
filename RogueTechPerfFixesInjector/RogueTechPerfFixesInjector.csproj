@@ -1,35 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\Common.props" />
+
   <PropertyGroup>
     <ProjectGuid>{24B640F1-9AFC-44C6-8414-6F28F3097D5B}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <TargetFramework>net472</TargetFramework>
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <AssemblySearchPaths>
-      $(BattleTechGameDir)\Mods\ModTek\;
-      $(BattleTechGameDir)\BattleTech_Data\Managed\
-    </AssemblySearchPaths>
-    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  <Target Name="CopyFilesToGame" AfterTargets="CopyFilesToOutputDirectory" Condition="'$(BattleTechGameDir)' != ''">
-    <Copy SourceFiles="$(SolutionDir)\References\DOTween.dll" DestinationFolder="$(BattleTechGameDir)\Mods\ModTek\AssembliesOverride" />
-    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BattleTechGameDir)\Mods\ModTek\Injectors" />
+  <Target Name="CopyFilesToGame" AfterTargets="CopyFilesToOutputDirectory" Condition="Exists('$(BattleTechGameDir)\Mods\ModTek\Injectors\')">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BattleTechGameDir)\Mods\ModTek\Injectors\" />
   </Target>
   <Target Name="CopyFilesToDist" AfterTargets="CopyFilesToOutputDirectory">
-    <Copy SourceFiles="$(SolutionDir)\References\DOTween.dll" DestinationFolder="$(SolutionDir)\dist\Mods\ModTek\AssembliesOverride" />
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(SolutionDir)\dist\Mods\ModTek\Injectors" />
   </Target>
   <ItemGroup>
-    <Reference Include="System">
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="System.Core">
-      <Private>false</Private>
-    </Reference>
+    <PackageReference Include="HarmonyX">
+      <PrivateAssets>all</PrivateAssets>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
     <Reference Include="Mono.Cecil">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Mono.Cecil.Rocks">
       <Private>False</Private>
     </Reference>
   </ItemGroup>

@@ -1,17 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup Condition="'$(RogueTechPerfFixesModPath)' == ''">
-    <RogueTechPerfFixesModPath>$(SolutionDir)</RogueTechPerfFixesModPath>
-  </PropertyGroup>
+  <Import Project="..\Common.props" />
+
   <PropertyGroup>
     <ProjectGuid>{382C05D7-3BCE-4E9D-B3D2-8AA85C66871E}</ProjectGuid>
-    <OutputType>Library</OutputType>
     <TargetFramework>net472</TargetFramework>
-    <LangVersion>preview</LangVersion>
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
     <AssemblySearchPaths>
-      $(ReferencePath);
       {HintPathFromItem};
+      $(BattleTechGameDir)\Mods\.modtek\AssembliesInjected\;
       $(BattleTechGameDir)\BattleTech_Data\Managed\
     </AssemblySearchPaths>
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
@@ -19,7 +14,7 @@
   <ItemGroup>
     <None Include="$(SolutionDir)\mod.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-  <Target Name="CopyFilesToGame" AfterTargets="CopyFilesToOutputDirectory" Condition="'$(BattleTechGameDir)' != ''">
+  <Target Name="CopyFilesToGame" AfterTargets="CopyFilesToOutputDirectory" Condition="Exists('$(BattleTechGameDir)\Mods\RogueTechPerfFixes\')">
     <ItemGroup>
       <OutDirFiles Include="$(OutDir)**" />
     </ItemGroup>
@@ -31,28 +26,15 @@
     </ItemGroup>
     <Copy SourceFiles="@(OutDirFiles)" DestinationFolder="$(SolutionDir)\dist\Mods\RogueTechPerfFixes\" />
   </Target>
+
   <ItemGroup>
     <Reference Include="0Harmony">
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>$(BattleTechGameDir)\Mods\.modtek\AssembliesInjected\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="CustomActivatableEquipment">
-      <HintPath>$(RogueTechPerfFixesModPath)\..\CustomActivatableEquipment\CustomActivatableEquipment.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="CustomAmmoCategories">
-      <HintPath>$(RogueTechPerfFixesModPath)\..\CustomAmmoCategories\CustomAmmoCategories.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="CustomUnits">
-      <HintPath>$(RogueTechPerfFixesModPath)\..\CustomUnits\CustomUnits.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DOTween">
-      <HintPath>..\References\DOTween.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DOTweenPro">

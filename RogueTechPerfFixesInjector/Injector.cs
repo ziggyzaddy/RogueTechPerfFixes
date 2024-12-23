@@ -18,6 +18,7 @@ namespace RogueTechPerfFixesInjector
             yield return new I_CombatAuraReticle();
             yield return new I_BTLight();
             yield return new I_BTLightController();
+            yield return new I_DOTween();
         }
     }
 }

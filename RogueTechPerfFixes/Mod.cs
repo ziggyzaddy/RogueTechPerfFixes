@@ -8,20 +8,7 @@ namespace RogueTechPerfFixes
 {
     public static class Mod
     {
-        private static Settings _settings;
-
-        public static Settings Settings
-        {
-            get
-            {
-                if (_settings == null)
-                    _settings = JsonConvert.DeserializeObject<Settings>(GetSetting());
-
-                return _settings;
-            }
-
-            set => _settings = value;
-        }
+        public static Settings Settings { get; private set; }
 
         public static void Init(string modDirectory, string settingsJSON)
         {
@@ -36,14 +23,6 @@ namespace RogueTechPerfFixes
                 RTPFLogger.LogCritical(e.ToString());
             }
 
-        }
-
-        private static string GetSetting()
-        {
-            return File.ReadAllText(
-                Path.Combine(
-                    Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
-                    , "mod.json"));
         }
     }
 }
