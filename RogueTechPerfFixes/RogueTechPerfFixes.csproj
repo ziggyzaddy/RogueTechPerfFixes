@@ -1,12 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Common.props" />
 
+  <!-- EXPERIMENTAL! run injectors without having to run BT -->
+  <Import Project="$(BattleTechGameDir)\Mods\ModTek\lib\ModTek.InjectorsTask.props" />
+  <Import Project="$(BattleTechGameDir)\Mods\ModTek\lib\ModTek.InjectorsTask.targets" />
+
   <PropertyGroup>
     <ProjectGuid>{382C05D7-3BCE-4E9D-B3D2-8AA85C66871E}</ProjectGuid>
     <TargetFramework>net472</TargetFramework>
     <AssemblySearchPaths>
       {HintPathFromItem};
       $(BattleTechGameDir)\Mods\.modtek\AssembliesInjected\;
+      $(BattleTechGameDir)\Mods\ModTek\lib\;
       $(BattleTechGameDir)\BattleTech_Data\Managed\
     </AssemblySearchPaths>
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
@@ -33,11 +38,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="HarmonyX" Version="2.10.1">
-      <PrivateAssets>all</PrivateAssets>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </PackageReference>
-
+    <Reference Include="0Harmony">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Assembly-CSharp">
       <Private>False</Private>
     </Reference>
