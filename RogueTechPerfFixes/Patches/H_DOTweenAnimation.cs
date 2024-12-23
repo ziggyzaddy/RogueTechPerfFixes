@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using DG.Tweening;
-using Harmony;
 using RogueTechPerfFixes.Utils;
-using UnityEngine;
 
 namespace RogueTechPerfFixes.Patches
 {

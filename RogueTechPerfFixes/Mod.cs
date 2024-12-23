@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
 using RogueTechPerfFixes.Utils;
@@ -16,7 +15,7 @@ namespace RogueTechPerfFixes
             {
                 RTPFLogger.InitCriticalLogger(modDirectory);
                 Settings = JsonConvert.DeserializeObject<Settings>(settingsJSON);
-                HarmonyUtils.Harmony.PatchAll();
+                Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), "my harmony identifier");
             }
             catch (Exception e)
             {

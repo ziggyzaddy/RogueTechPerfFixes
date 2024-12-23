@@ -8,6 +8,7 @@
     <OutputType>Library</OutputType>
     <LangVersion>13</LangVersion>
     <DebugType>embedded</DebugType>
+    <NoWarn>CS0436</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

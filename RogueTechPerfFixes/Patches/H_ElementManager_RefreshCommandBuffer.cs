@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Reflection.Emit;
 using BattleTech.Rendering.UI;
-using Harmony;
 using UnityEngine.Rendering;
 
 namespace RogueTechPerfFixes.Patches

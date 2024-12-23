@@ -28,9 +28,16 @@
   </Target>
 
   <ItemGroup>
-    <Reference Include="0Harmony">
-      <Private>False</Private>
-    </Reference>
+    <PackageReference Include="Krafs.Publicizer" />
+    <Publicize Include="Assembly-CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HarmonyX" Version="2.10.1">
+      <PrivateAssets>all</PrivateAssets>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+
     <Reference Include="Assembly-CSharp">
       <Private>False</Private>
     </Reference>

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using BattleTech;
-using Harmony;
 using RogueTechPerfFixes.Models;
 using RogueTechPerfFixes.Utils;
 

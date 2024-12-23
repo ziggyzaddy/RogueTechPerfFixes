@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using BattleTech;
-using Harmony;
 
 namespace RogueTechPerfFixes.Models
 {
@@ -18,10 +17,6 @@ namespace RogueTechPerfFixes.Models
         private readonly HashSet<AbstractActor> biCacheActors = new HashSet<AbstractActor>();
 
         private delegate void CheckForAlertDelegate(VisibilityCache cache);
-
-        private static CheckForAlertDelegate CheckForAlert =
-            (CheckForAlertDelegate)Delegate.CreateDelegate(
-                typeof(CheckForAlertDelegate), typeof(VisibilityCache).GetMethod("checkForAlert", AccessTools.all));
 
         private VisibilityCacheGate()
             : base(null, null)

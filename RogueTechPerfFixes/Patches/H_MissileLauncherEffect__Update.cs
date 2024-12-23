@@ -1,5 +1,4 @@
 ﻿using BattleTech.Rendering;
-using Harmony;
 
 namespace RogueTechPerfFixes.Patches
 {
@@ -8,9 +7,7 @@ namespace RogueTechPerfFixes.Patches
     {
         public static bool Prepare()
         {
-            return Mod.Settings.Patch.Vanilla
-                   && typeof(BTLightController).GetField(nameof(BTLightController.InBatchProcess), AccessTools.all) != null
-                   && typeof(BTLightController).GetField(nameof(BTLightController.InBatchProcess), AccessTools.all) != null;
+            return Mod.Settings.Patch.Vanilla;
         }
 
         [HarmonyPriority(Priority.First)]
@@ -24,7 +21,7 @@ namespace RogueTechPerfFixes.Patches
             BTLightController.InBatchProcess = false;
             if (BTLightController.LightAdded)
             {
-                H_BTLightController.Lights().Sort();
+                BTLightController.lightList.Sort();
                 BTLightController.LightAdded = false;
             }
         }
