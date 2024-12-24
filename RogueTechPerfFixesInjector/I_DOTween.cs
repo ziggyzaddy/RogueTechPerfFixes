@@ -63,7 +63,6 @@ namespace RogueTechPerfFixesInjector
             var originalFirstInstruction = FindInstructionAtOffset(0x005D);
             var tweenVar = (VariableDefinition)FindInstructionAtOffset(0x005E).Operand;
             var flag2Var = (VariableDefinition)FindInstructionAtOffset(0x007C).Operand;
-            var equalsMethod = (MethodReference)FindInstructionAtOffset(0x0065).Operand;
             var originalBreakTargetInstruction = (Instruction)FindInstructionAtOffset(0x007E).Operand;
 
             var processor = filteredOperationMethod.Body.GetILProcessor();
@@ -78,7 +77,7 @@ namespace RogueTechPerfFixesInjector
 			/* if (operationType == OperationType.Despawn)
 			IL_005D: ldarg.0
 			IL_005E: ldc.i4.1
-			IL_005F: bne.un.s  IL_0082
+			IL_005F: bne.un.s  IL_0087
 			*/
 			var first = Instruction.Create(OpCodes.Ldarg_0);
 			switchInstructions[1] = first;
@@ -95,48 +94,38 @@ namespace RogueTechPerfFixesInjector
             Add(Instruction.Create(OpCodes.Ldfld, gameObjectIdField));
             Add(Instruction.Create(OpCodes.Stloc_S, gameObjectId));
 
-            /* if (gameObjectId != 0)
-			IL_006A: ldloc.s   gameObjectId
-			IL_006C: brfalse.s IL_0082
+            /* if (gameObjectId != 0 && id is int)
+            IL_006A: ldloc.s   gameObjectId
+            IL_006C: brfalse.s IL_0087
+
+            IL_006E: ldarg.2
+            IL_006F: isinst    [mscorlib]System.Int32
+            IL_0074: brfalse.s IL_0087
 			*/
             Add(Instruction.Create(OpCodes.Ldloc_S, gameObjectId));
             Add(Instruction.Create(OpCodes.Brfalse_S, originalFirstInstruction));
 
-            /* flag2 = id.Equals(targetId);
-			IL_006E: ldarg.2
-			IL_006F: ldloc.s   gameObjectId
-			IL_0071: box       [mscorlib]System.Int32
-			IL_0076: callvirt  instance bool [mscorlib]System.Object::Equals(object)
-			IL_007B: stloc.s   flag2
-			*/
             Add(Instruction.Create(OpCodes.Ldarg_2));
-            Add(Instruction.Create(OpCodes.Ldloca_S, gameObjectId));
-            Add(Instruction.Create(OpCodes.Box, gameObjectIdType));
-            Add(Instruction.Create(OpCodes.Callvirt, equalsMethod));
+            Add(Instruction.Create(OpCodes.Isinst, gameObjectIdType));
+            Add(Instruction.Create(OpCodes.Brfalse_S, originalFirstInstruction));
+
+            /* flag2 = gameObjectId == (int)id;
+            IL_0076: ldloc.s   gameObjectId
+            IL_0078: ldarg.2
+            IL_0079: unbox.any [mscorlib]System.Int32
+            IL_007E: ceq
+            IL_0080: stloc.s   flag2
+			*/
+            Add(Instruction.Create(OpCodes.Ldloc_S, gameObjectId));
+            Add(Instruction.Create(OpCodes.Ldarg_2));
+            Add(Instruction.Create(OpCodes.Unbox_Any, gameObjectIdType));
+            Add(Instruction.Create(OpCodes.Ceq));
             Add(Instruction.Create(OpCodes.Stloc_S, flag2Var));
 
             /* break
-            IL_007D: br        IL_010C
+            IL_0082: br        IL_0111
              */
             Add(Instruction.Create(OpCodes.Br, originalBreakTargetInstruction));
-
-			/*
-			// flag2 = id.Equals(tween.id) || id.Equals(tween.target);
-			IL_0082: ldarg.2
-			IL_0083: ldloc.s   tween
-			IL_0085: ldfld     object DG.Tweening.Tween::id
-			IL_008A: callvirt  instance bool [mscorlib]System.Object::Equals(object)
-			IL_008F: brtrue.s  IL_00A0
-			IL_0091: ldarg.2
-			IL_0092: ldloc.s   tween
-			IL_0094: ldfld     object DG.Tweening.Tween::target
-			IL_0099: callvirt  instance bool [mscorlib]System.Object::Equals(object)
-			IL_00AA: ldc.i4.1
-			IL_00AB: stloc.s   flag2
-
-			// break;
-			IL_00A3: br.s      IL_010C
-			*/
         }
     }
 }
