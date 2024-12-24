@@ -1,29 +1,28 @@
 ﻿using BattleTech.Rendering;
 
-namespace RogueTechPerfFixes.Patches
+namespace RogueTechPerfFixes.Patches;
+
+[HarmonyPatch(typeof(MissileLauncherEffect), "Update")]
+public static class H_MissileLauncherEffect__Update
 {
-    [HarmonyPatch(typeof(MissileLauncherEffect), "Update")]
-    public static class H_MissileLauncherEffect__Update
+    public static bool Prepare()
     {
-        public static bool Prepare()
-        {
-            return Mod.Settings.Patch.Vanilla;
-        }
+        return Mod.Settings.Patch.Vanilla;
+    }
 
-        [HarmonyPriority(Priority.First)]
-        public static void Prefix()
-        {
-            BTLightController.InBatchProcess = true;
-        }
+    [HarmonyPriority(Priority.First)]
+    public static void Prefix()
+    {
+        BTLightController.InBatchProcess = true;
+    }
 
-        public static void Postfix()
+    public static void Postfix()
+    {
+        BTLightController.InBatchProcess = false;
+        if (BTLightController.LightAdded)
         {
-            BTLightController.InBatchProcess = false;
-            if (BTLightController.LightAdded)
-            {
-                BTLightController.lightList.Sort();
-                BTLightController.LightAdded = false;
-            }
+            BTLightController.lightList.Sort();
+            BTLightController.LightAdded = false;
         }
     }
 }

@@ -2,57 +2,56 @@
 using BattleTech;
 using RogueTechPerfFixes.Models;
 
-namespace RogueTechPerfFixes.Patches
+namespace RogueTechPerfFixes.Patches;
+
+public static class VisibilityCachePatches
 {
-    public static class VisibilityCachePatches
+    public delegate AbstractActor OwningActor(VisibilityCache cache);
+
+    public static OwningActor GetOwningActor =
+        (OwningActor)Delegate.CreateDelegate(typeof(OwningActor), typeof(VisibilityCache).GetProperty("OwningActor", AccessTools.all).GetMethod);
+
+    [HarmonyPatch(typeof(VisibilityCache), nameof(VisibilityCache.RebuildCache))]
+    public static class VisibilityCache_RebuildCache
     {
-        public delegate AbstractActor OwningActor(VisibilityCache cache);
-
-        public static OwningActor GetOwningActor =
-            (OwningActor)Delegate.CreateDelegate(typeof(OwningActor), typeof(VisibilityCache).GetProperty("OwningActor", AccessTools.all).GetMethod);
-
-        [HarmonyPatch(typeof(VisibilityCache), nameof(VisibilityCache.RebuildCache))]
-        public static class VisibilityCache_RebuildCache
+        public static bool Prepare()
         {
-            public static bool Prepare()
-            {
-                return Mod.Settings.Patch.LowVisibility;
-            }
-
-            // Lowest priority
-            [HarmonyPriority(Priority.Last)]
-            public static bool Prefix(VisibilityCache __instance)
-            {
-                if (VisibilityCacheGate.Active)
-                {
-                    VisibilityCacheGate.AddActorToRefresh(GetOwningActor(__instance));
-                    return false;
-                }
-
-                return true;
-            }
+            return Mod.Settings.Patch.LowVisibility;
         }
 
-        [HarmonyPatch(typeof(VisibilityCache), nameof(VisibilityCache.UpdateCacheReciprocal))]
-        public static class VisibilityCache_UpdateCacheReciprocal
+        // Lowest priority
+        [HarmonyPriority(Priority.Last)]
+        public static bool Prefix(VisibilityCache __instance)
         {
-            public static bool Prepare()
+            if (VisibilityCacheGate.Active)
             {
-                return Mod.Settings.Patch.LowVisibility;
+                VisibilityCacheGate.AddActorToRefresh(GetOwningActor(__instance));
+                return false;
             }
 
-            // Lowest priority
-            [HarmonyPriority(Priority.Last)]
-            public static bool Prefix(VisibilityCache __instance)
-            {
-                if (VisibilityCacheGate.Active)
-                {
-                    VisibilityCacheGate.AddActorToRefreshReciprocal(GetOwningActor(__instance));
-                    return false;
-                }
+            return true;
+        }
+    }
 
-                return true;
+    [HarmonyPatch(typeof(VisibilityCache), nameof(VisibilityCache.UpdateCacheReciprocal))]
+    public static class VisibilityCache_UpdateCacheReciprocal
+    {
+        public static bool Prepare()
+        {
+            return Mod.Settings.Patch.LowVisibility;
+        }
+
+        // Lowest priority
+        [HarmonyPriority(Priority.Last)]
+        public static bool Prefix(VisibilityCache __instance)
+        {
+            if (VisibilityCacheGate.Active)
+            {
+                VisibilityCacheGate.AddActorToRefreshReciprocal(GetOwningActor(__instance));
+                return false;
             }
+
+            return true;
         }
     }
 }

@@ -2,50 +2,49 @@
 using RogueTechPerfFixes.Models;
 using RogueTechPerfFixes.Utils;
 
-namespace RogueTechPerfFixes.Patches
+namespace RogueTechPerfFixes.Patches;
+
+public static class H_ActorMovementSequence
 {
-    public static class H_ActorMovementSequence
+    private static bool _hasEntered = false;
+
+    private static int _counter = 0;
+
+    [HarmonyPatch(typeof(ActorMovementSequence), nameof(ActorMovementSequence.Update))]
+    public static class H_Update
     {
-        private static bool _hasEntered = false;
-
-        private static int _counter = 0;
-
-        [HarmonyPatch(typeof(ActorMovementSequence), nameof(ActorMovementSequence.Update))]
-        public static class H_Update
+        public static bool Prepare()
         {
-            public static bool Prepare()
-            {
-                return Mod.Settings.Patch.LowVisibility;
-            }
-
-            public static void Prefix()
-            {
-                if (!_hasEntered)
-                {
-                    _hasEntered = true;
-                    VisibilityCacheGate.EnterGate();
-                    _counter = VisibilityCacheGate.GetCounter;
-                    RTPFLogger.Debug?.Write($"Enter visibility cache gate in {typeof(H_Update).FullName}:{nameof(Prefix)}\n");
-                }
-            }
+            return Mod.Settings.Patch.LowVisibility;
         }
 
-        [HarmonyPatch(typeof(ActorMovementSequence), "CompleteMove")]
-        public static class H_CompleteMove
+        public static void Prefix()
         {
-            public static bool Prepare()
+            if (!_hasEntered)
             {
-                return Mod.Settings.Patch.LowVisibility;
+                _hasEntered = true;
+                VisibilityCacheGate.EnterGate();
+                _counter = VisibilityCacheGate.GetCounter;
+                RTPFLogger.Debug?.Write($"Enter visibility cache gate in {typeof(H_Update).FullName}:{nameof(Prefix)}\n");
             }
+        }
+    }
 
-            public static void Postfix()
-            {
-                _hasEntered = false;
-                VisibilityCacheGate.ExitGate();
+    [HarmonyPatch(typeof(ActorMovementSequence), "CompleteMove")]
+    public static class H_CompleteMove
+    {
+        public static bool Prepare()
+        {
+            return Mod.Settings.Patch.LowVisibility;
+        }
 
-                Utils.Utils.CheckExitCounter($"Fewer calls made to ExitGate() when reaches ActorMovementSequence.CompleteMove().\n", _counter);
-                RTPFLogger.Debug?.Write($"Exit visibility cache gate in {typeof(H_CompleteMove).FullName}: {nameof(Postfix)}\n");
-            }
+        public static void Postfix()
+        {
+            _hasEntered = false;
+            VisibilityCacheGate.ExitGate();
+
+            Utils.Utils.CheckExitCounter($"Fewer calls made to ExitGate() when reaches ActorMovementSequence.CompleteMove().\n", _counter);
+            RTPFLogger.Debug?.Write($"Exit visibility cache gate in {typeof(H_CompleteMove).FullName}: {nameof(Postfix)}\n");
         }
     }
 }

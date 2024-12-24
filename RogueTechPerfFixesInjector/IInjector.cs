@@ -1,9 +1,8 @@
 ﻿using Mono.Cecil;
 
-namespace RogueTechPerfFixesInjector
+namespace RogueTechPerfFixesInjector;
+
+public interface IInjector
 {
-    public interface IInjector
-    {
-        void Inject(IAssemblyResolver resolver);
-    }
+    void Inject(IAssemblyResolver resolver);
 }

@@ -2,41 +2,40 @@
 using BattleTech.Rendering;
 using RogueTechPerfFixes.Utils;
 
-namespace RogueTechPerfFixes.Patches
+namespace RogueTechPerfFixes.Patches;
+
+/// <summary>
+/// Allowed all newly added light sorted in a batch instead of sorting every time a new light is added.
+/// </summary>
+public static class H_BTLightController
 {
-    /// <summary>
-    /// Allowed all newly added light sorted in a batch instead of sorting every time a new light is added.
-    /// </summary>
-    public static class H_BTLightController
+    [HarmonyPatch(typeof(BTLightController), nameof(BTLightController.AddLight))]
+    public static class H_AddLight
     {
-        [HarmonyPatch(typeof(BTLightController), nameof(BTLightController.AddLight))]
-        public static class H_AddLight
+        /// <summary>
+        /// Check whether <see cref="BTLightController.InBatchProcess"/> is injected.
+        /// </summary>
+        /// <returns> Returns true, if the field is found in the class. </returns>
+        public static bool Prepare()
         {
-            /// <summary>
-            /// Check whether <see cref="BTLightController.InBatchProcess"/> is injected.
-            /// </summary>
-            /// <returns> Returns true, if the field is found in the class. </returns>
-            public static bool Prepare()
-            {
-                return Mod.Settings.Patch.Vanilla;
-            }
+            return Mod.Settings.Patch.Vanilla;
+        }
 
-            public static bool Prefix(BTLight light, List<BTLight> ___lightList)
+        public static bool Prefix(BTLight light, List<BTLight> ___lightList)
+        {
+            if (BTLightController.InBatchProcess)
             {
-                if (BTLightController.InBatchProcess)
+                BTLightController.LightAdded = true;
+                if (!light.isInLightList)
                 {
-                    BTLightController.LightAdded = true;
-                    if (!light.isInLightList)
-                    {
-                        ___lightList.Add(light);
-                        light.isInLightList = true;
-                    }
-
-                    return false;
+                    ___lightList.Add(light);
+                    light.isInLightList = true;
                 }
 
-                return true;
+                return false;
             }
+
+            return true;
         }
     }
 }
