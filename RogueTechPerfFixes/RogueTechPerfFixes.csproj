@@ -33,6 +33,10 @@
   </Target>
 
   <ItemGroup>
+    <ProjectReference Include="..\RogueTechPerfFixesInjector\RogueTechPerfFixesInjector.csproj" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Krafs.Publicizer" />
     <Publicize Include="Assembly-CSharp" />
   </ItemGroup>
