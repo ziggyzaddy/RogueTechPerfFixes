@@ -109,16 +109,16 @@ public class I_DOTween : IInjector
         Add(Instruction.Create(OpCodes.Isinst, gameObjectIdType));
         Add(Instruction.Create(OpCodes.Brfalse_S, originalFirstInstruction));
 
-        /* flag2 = gameObjectId == (int)id;
-        IL_0076: ldloc.s   gameObjectId
-        IL_0078: ldarg.2
-        IL_0079: unbox.any [mscorlib]System.Int32
+        /* flag2 = (int)id == gameObjectId;
+        IL_0076: ldarg.2
+        IL_0077: unbox.any [mscorlib]System.Int32
+        IL_007C: ldloc.s   gameObjectId
         IL_007E: ceq
         IL_0080: stloc.s   flag2
         */
-        Add(Instruction.Create(OpCodes.Ldloc_S, gameObjectId));
         Add(Instruction.Create(OpCodes.Ldarg_2));
         Add(Instruction.Create(OpCodes.Unbox_Any, gameObjectIdType));
+        Add(Instruction.Create(OpCodes.Ldloc_S, gameObjectId));
         Add(Instruction.Create(OpCodes.Ceq));
         Add(Instruction.Create(OpCodes.Stloc_S, flag2Var));
 
