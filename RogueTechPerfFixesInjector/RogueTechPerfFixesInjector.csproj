@@ -5,11 +5,8 @@
     <ProjectGuid>{24B640F1-9AFC-44C6-8414-6F28F3097D5B}</ProjectGuid>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  <Target Name="CopyFilesToGame" AfterTargets="CopyFilesToOutputDirectory" Condition="Exists('$(BattleTechGameDir)\Mods\ModTek\Injectors\')">
+  <Target Name="CopyFilesToGame" AfterTargets="CopyFilesToOutputDirectory">
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BattleTechGameDir)\Mods\ModTek\Injectors\" />
-  </Target>
-  <Target Name="CopyFilesToDist" AfterTargets="CopyFilesToOutputDirectory">
-    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(SolutionDir)\dist\Mods\ModTek\Injectors" />
   </Target>
   <ItemGroup>
     <PackageReference Include="HarmonyX">

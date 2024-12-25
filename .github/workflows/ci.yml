@@ -1,0 +1,18 @@
+on: push
+name: CI
+
+jobs:
+  build:
+    uses: BattletechModders/ModTek/.github/workflows/mod-builder.yml@master
+    with:
+      checkout-directory: 'RogueTechPerfFixes'
+      build-script: |
+        dotnet build -c Release -p:BattleTechGameDir="$BATTLETECH_DIR/"
+        cd "$BATTLETECH_DIR/Mods"
+        7z a -tzip -mx9 "$DIST_DIR/RogueTechPerfFixes.zip" \
+          RogueTechPerfFixes/ \
+          ModTek/Injectors/RogueTechPerfFixesInjector.dll
+      release-notes: |
+        RogueTechPerfFixes.zip contains the mod and injector.
+        Requires ModTek v4.3 or later.
+    secrets: inherit

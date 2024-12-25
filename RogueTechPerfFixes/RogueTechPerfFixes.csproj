@@ -18,17 +18,11 @@
   <ItemGroup>
     <None Include="$(SolutionDir)\mod.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-  <Target Name="CopyFilesToGame" AfterTargets="CopyFilesToOutputDirectory" Condition="Exists('$(BattleTechGameDir)\Mods\RogueTechPerfFixes\')">
+  <Target Name="CopyFilesToGame" AfterTargets="CopyFilesToOutputDirectory">
     <ItemGroup>
       <OutDirFiles Include="$(OutDir)**" />
     </ItemGroup>
     <Copy SourceFiles="@(OutDirFiles)" DestinationFolder="$(BattleTechGameDir)\Mods\RogueTechPerfFixes\" />
-  </Target>
-  <Target Name="CopyFilesToDist" AfterTargets="CopyFilesToOutputDirectory">
-    <ItemGroup>
-      <OutDirFiles Include="$(OutDir)**" />
-    </ItemGroup>
-    <Copy SourceFiles="@(OutDirFiles)" DestinationFolder="$(SolutionDir)\dist\Mods\RogueTechPerfFixes\" />
   </Target>
 
   <ItemGroup>
