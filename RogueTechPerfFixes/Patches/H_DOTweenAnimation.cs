@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using DG.Tweening;
-using RogueTechPerfFixes.Utils;
 
 namespace RogueTechPerfFixes.Patches;
 
@@ -49,7 +48,7 @@ public static class H_DOTweenAnimation
 
             var gameObject = __instance.gameObject;
             tween.gameObjectId = gameObject.GetInstanceID();
-            RTPFLogger.Debug?.Write($"Target instance Id: {tween.gameObjectId}");
+            Log.Main.Debug?.Log($"Target instance Id: {tween.gameObjectId}");
         }
     }
 }

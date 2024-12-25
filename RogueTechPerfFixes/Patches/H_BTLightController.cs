@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using BattleTech.Rendering;
-using RogueTechPerfFixes.Utils;
 
 namespace RogueTechPerfFixes.Patches;
 

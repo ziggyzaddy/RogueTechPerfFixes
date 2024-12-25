@@ -1,6 +1,5 @@
 ﻿using BattleTech;
 using RogueTechPerfFixes.Models;
-using RogueTechPerfFixes.Utils;
 
 namespace RogueTechPerfFixes.Patches;
 
@@ -56,11 +55,11 @@ public static class AbstractActor_HandleDeath
         var exitCounter = VisibilityCacheGate.GetCounter;
         if (exitCounter < counter)
         {
-            RTPFLogger.Debug?.Write($"Reset or unsymmetrical larger number of ExitGate() are call.");
+            Log.Main.Debug?.Log($"Reset or unsymmetrical larger number of ExitGate() are call.");
         }
         else if (exitCounter > counter)
         {
-            RTPFLogger.Error?.Write($"Fewer calls to ExitGate() than EnterGate().");
+            Log.Main.Error?.Log($"Fewer calls to ExitGate() than EnterGate().");
         }
     }
 }

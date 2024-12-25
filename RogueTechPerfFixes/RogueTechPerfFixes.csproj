@@ -47,6 +47,9 @@
     <Reference Include="DOTweenPro">
       <Private>False</Private>
     </Reference>
+    <Reference Include="ModTek">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <Private>False</Private>
     </Reference>

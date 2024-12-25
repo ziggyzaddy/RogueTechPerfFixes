@@ -5,9 +5,6 @@
     "DLL": "RogueTechPerfFixes.dll",
     "DLLEntryPoint": "RogueTechPerfFixes.Mod.Init",
     "Settings": {
-        "LogError": true,
-        "LogDebug": false,
-        "LogWarning": false,
         "Patch":  {
             "Vanilla": true,
             "LowVisibility": false

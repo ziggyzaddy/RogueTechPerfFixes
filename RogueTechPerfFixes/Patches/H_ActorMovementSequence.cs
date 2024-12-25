@@ -1,6 +1,5 @@
 ﻿using BattleTech;
 using RogueTechPerfFixes.Models;
-using RogueTechPerfFixes.Utils;
 
 namespace RogueTechPerfFixes.Patches;
 
@@ -25,7 +24,7 @@ public static class H_ActorMovementSequence
                 _hasEntered = true;
                 VisibilityCacheGate.EnterGate();
                 _counter = VisibilityCacheGate.GetCounter;
-                RTPFLogger.Debug?.Write($"Enter visibility cache gate in {typeof(H_Update).FullName}:{nameof(Prefix)}\n");
+                Log.Main.Debug?.Log($"Enter visibility cache gate in {typeof(H_Update).FullName}:{nameof(Prefix)}\n");
             }
         }
     }
@@ -44,7 +43,7 @@ public static class H_ActorMovementSequence
             VisibilityCacheGate.ExitGate();
 
             Utils.Utils.CheckExitCounter($"Fewer calls made to ExitGate() when reaches ActorMovementSequence.CompleteMove().\n", _counter);
-            RTPFLogger.Debug?.Write($"Exit visibility cache gate in {typeof(H_CompleteMove).FullName}: {nameof(Postfix)}\n");
+            Log.Main.Debug?.Log($"Exit visibility cache gate in {typeof(H_CompleteMove).FullName}: {nameof(Postfix)}\n");
         }
     }
 }

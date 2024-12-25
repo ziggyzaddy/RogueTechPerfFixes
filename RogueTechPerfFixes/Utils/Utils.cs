@@ -9,7 +9,7 @@ public static class Utils
         var exitCounter = VisibilityCacheGate.GetCounter;
         if (exitCounter > counter)
         {
-            RTPFLogger.Error?.Write(message);
+            Log.Main.Error?.Log(message);
             VisibilityCacheGate.ExitAll();
         }
     }

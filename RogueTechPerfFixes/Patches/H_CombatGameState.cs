@@ -1,6 +1,5 @@
 using BattleTech;
 using RogueTechPerfFixes.Models;
-using RogueTechPerfFixes.Utils;
 
 namespace RogueTechPerfFixes.Patches;
 
@@ -23,13 +22,13 @@ public static class H_CombatGameState
             if (AbstractActor_HandleDeath.GateActive)
             {
                 error = true;
-                RTPFLogger.Error?.Write($"Something has gone wrong in handling actor death, resetting VisibilityCacheGate.");
+                Log.Main.Error?.Log($"Something has gone wrong in handling actor death, resetting VisibilityCacheGate.");
             }
 
             if (H_EffectManager.H_OnRoundEnd.GateActive)
             {
                 error = true;
-                RTPFLogger.Error?.Write(string.Format(ACTIVE_GATE, nameof(H_EffectManager.H_OnRoundEnd)));
+                Log.Main.Error?.Log(string.Format(ACTIVE_GATE, nameof(H_EffectManager.H_OnRoundEnd)));
             }
 
             if (error)

@@ -1,6 +1,5 @@
 ﻿using BattleTech;
 using RogueTechPerfFixes.Models;
-using RogueTechPerfFixes.Utils;
 
 namespace RogueTechPerfFixes.Patches;
 
@@ -24,7 +23,7 @@ public static class H_AttackDirector
         {
             VisibilityCacheGate.EnterGate();
             _counter = VisibilityCacheGate.GetCounter;
-            RTPFLogger.Debug?.Write($"Enter visibility cache gate in {typeof(H_OnAttackSequenceBegin).FullName}:{nameof(Postfix)}\n");
+            Log.Main.Debug?.Log($"Enter visibility cache gate in {typeof(H_OnAttackSequenceBegin).FullName}:{nameof(Postfix)}\n");
         }
     }
 
@@ -41,7 +40,7 @@ public static class H_AttackDirector
             VisibilityCacheGate.ExitGate();
 
             Utils.Utils.CheckExitCounter($"Fewer calls made to ExitGate() when reaches AttackDirector.OnAttackSequenceEnd().\n", _counter);
-            RTPFLogger.Debug?.Write($"Exit visibility cache gate in {typeof(H_OnAttackSequenceEnd).FullName}:{nameof(Postfix)}\n");
+            Log.Main.Debug?.Log($"Exit visibility cache gate in {typeof(H_OnAttackSequenceEnd).FullName}:{nameof(Postfix)}\n");
         }
     }
 }
