@@ -2,8 +2,7 @@
   <Import Project="..\Common.props" />
 
   <!-- EXPERIMENTAL! run injectors without having to run BT -->
-  <Import Project="$(BattleTechGameDir)\Mods\ModTek\lib\ModTek.InjectorsTask.props" />
-  <Import Project="$(BattleTechGameDir)\Mods\ModTek\lib\ModTek.InjectorsTask.targets" />
+  <Import Project="$(BattleTechGameDir)\Mods\ModTek\lib\ModTekInjectorsTask.props" />
 
   <PropertyGroup>
     <ProjectGuid>{382C05D7-3BCE-4E9D-B3D2-8AA85C66871E}</ProjectGuid>
