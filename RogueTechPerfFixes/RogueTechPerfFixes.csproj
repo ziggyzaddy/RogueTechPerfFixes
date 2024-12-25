@@ -16,7 +16,7 @@
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="$(SolutionDir)\mod.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\mod.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <Target Name="CopyFilesToGame" AfterTargets="CopyFilesToOutputDirectory">
     <ItemGroup>
