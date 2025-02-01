@@ -14,7 +14,7 @@ public class I_DOTween : IInjector
 {
     public void Inject(IAssemblyResolver resolver)
     {
-        var assembly = resolver.Resolve(new AssemblyNameReference("DOTween", null));
+        var assembly = resolver.Resolve(new AssemblyNameReference("DOTween", null), new ReaderParameters { ReadWrite = true} );
         TypeDefinition GetTypeDefinition(string fullName)
         {
             return assembly.MainModule.GetType(fullName) ?? throw new Exception($"Can't find type: {fullName} in assembly {assembly.FullName}");
