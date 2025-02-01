@@ -13,6 +13,6 @@ jobs:
           RogueTechPerfFixes/ \
           ModTek/Injectors/RogueTechPerfFixesInjector.dll
       release-notes: |
+        Requires ModTek to be up-to-date.
         RogueTechPerfFixes.zip contains the mod and injector.
-        Requires ModTek v4.3 or later.
     secrets: inherit
